@@ -6,8 +6,15 @@ import (
 	"encoding/json"
 )
 
+const (
+	AUTHOR = "hocklo"
+)
+
 type Message struct {
-	Text string
+	Text	string
+	Version	string
+	Date	string
+	Author	string
 }
 
 /**
@@ -23,7 +30,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
  */
 func about(w http.ResponseWriter, r *http.Request) {
 	// Save the message inside m
-	m:= Message{"Welcome to the Hocklo API, build v0.0, 2016/10/12"}
+	m:= Message{"Welcome to the Hocklo API","0.1,","2016/10/12", AUTHOR}
 	// Marshal "m" inside "b" if some problem occurs the value are writed inside "err".
 	b, err := json.Marshal(m)
 	// Check the value of "err" if it isn't "nil" output a panic error.
