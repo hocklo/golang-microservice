@@ -1,17 +1,15 @@
 package main
 
 import (
-	"bytes"
 	"fmt"
 	"net/http"
 	"encoding/json"
 	"time"
-	"log"
+	"github.com/hocklo/logger"
 )
 
 const (
 	AUTHOR = "hocklo"
-	INFO = "INFO"
 )
 
 type Message struct {
@@ -27,16 +25,16 @@ type Message struct {
  * e.g : Welcome, hocklo!
  */
 func handler(w http.ResponseWriter, r *http.Request) {
-	logInfo("func::handler::start::"+time.Now().Format(time.RFC3339Nano))
+	logger.Info("func::handler::start")
 	// localhost:8080/{argument} 
 	fmt.Fprintf(w, "Welcome, %s!", r.URL.Path[1:])
-	logInfo("func::handler::end::"+time.Now().Format(time.RFC3339Nano))
+	logger.Info("func::handler::end")
 }
 /**
  * Output a message about this go program.
  */
 func about(w http.ResponseWriter, r *http.Request) {
-	logInfo("func::about::start::"+time.Now().Format(time.RFC3339Nano))
+	logger.Info("func::about::start")
 	zuluDate:= time.Now().Format(time.RFC3339)
 	parsedDate:= time.Now().Format("02-01-2006")
 	// Save the message inside m
@@ -49,34 +47,16 @@ func about(w http.ResponseWriter, r *http.Request) {
 	}
 	// Write the value of "b" at ResponseWriter
 	w.Write(b)
-        logInfo("func::about::end::"+time.Now().Format(time.RFC3339Nano))
+        logger.Info("func::about::end")
 }
 
 /**
  * Main function to handle all mappings
  */
 func main() {
-	logInfo("GoMicroservice! Started!")
+	logger.Info("func::main::GoMicroservice! Started!")
 	http.HandleFunc("/", handler)
 	http.HandleFunc("/about", about)
 	http.ListenAndServe(":8080", nil)
-}
-
-
-/**
- * Print a log INFO.
- */
-func logInfo(s string) {
-	writeLog(INFO, s)
-}
-
-/**
- * Print &buf to log.
- */
-func writeLog(l string, s string) {
-        var buf bytes.Buffer // Instance buffer
-        var logger = log.New(&buf, "logger: ", log.Lshortfile) // Instance log 
-        logger.Print(time.Now().Format(time.RFC3339)+": "+l+": "+s) // Print log to buffer
-        fmt.Print(&buf) // throw log from buffer to file.
 }
 
