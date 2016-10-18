@@ -7,3 +7,5 @@ Simple example of a rudimentary Server API, to create this project I was followi
 | fmt | https://golang.org/pkg/fmt |
 | net/http | https://golang.org/pkg/net/http |
 | encoding/json | https://golang.org/pkg/encoding/json |
+| time | https://golang.org/pkg/time |
+| github.com/hocklo/logger | https://github.com/hocklo/golang-logger |
