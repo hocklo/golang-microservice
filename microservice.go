@@ -25,16 +25,16 @@ type Message struct {
  * e.g : Welcome, hocklo!
  */
 func handler(w http.ResponseWriter, r *http.Request) {
-	logger.Info("func::handler::start")
+	logger.Audit("func::handler::start")
 	// localhost:8080/{argument} 
 	fmt.Fprintf(w, "Welcome, %s!", r.URL.Path[1:])
-	logger.Info("func::handler::end")
+	logger.Audit("func::handler::end")
 }
 /**
  * Output a message about this go program.
  */
 func about(w http.ResponseWriter, r *http.Request) {
-	logger.Info("func::about::start")
+	logger.Audit("func::about::start")
 	zuluDate:= time.Now().Format(time.RFC3339)
 	parsedDate:= time.Now().Format("02-01-2006")
 	// Save the message inside m
@@ -47,7 +47,7 @@ func about(w http.ResponseWriter, r *http.Request) {
 	}
 	// Write the value of "b" at ResponseWriter
 	w.Write(b)
-        logger.Info("func::about::end")
+        logger.Audit("func::about::end")
 }
 
 /**
@@ -57,6 +57,10 @@ func main() {
 	logger.Info("func::main::GoMicroservice! Started!")
 	http.HandleFunc("/", handler)
 	http.HandleFunc("/about", about)
-	http.ListenAndServe(":8080", nil)
+	err:= http.ListenAndServe(":8080", nil)
+	if err != nil {
+		logger.Error("func::main::GoMicroservice! BOOM!!")
+		panic(err)
+	}
 }
 
